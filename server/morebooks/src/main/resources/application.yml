@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3308/morebooks
+    username: testuser
+    password: testpasswd
+
+daos:
+  usersdao:
+    getuserbyid: "SELECT * FROM users WHERE id = :id LIMIT 1"
+    getuserbyusernameoremail: "SELECT * FROM users WHERE username = :usernameoremail OR email = :usernameoremail LIMIT 1"
+    insertuser: "INSERT INTO users (id, username, email, passwd, firstname, lastname) VALUES(:id, :username, :email, :passwd, :firstname, :lastname)"
+  booksdao:
+    getReadBooksByUserId: "SELECT * FROM books JOIN user_readbook AS urb WHERE urb.user_id = :userid"
+    getBookById: "SELECT * FROM books WHERE id = :bookid"
+    insertBook: "INSERT INTO books (id, title, subtitle, authors, publisher, published_date, description, page_count, thumbnail) VALUES(:id, :title, :subtitle, :authors, :publisher, :published_date, :description, :page_count, :thumbnail)"
+    insertReadBook: "INSERT INTO user_readbook (user_id, book_id) VALUES(:userid, :bookid)"
+    insertWishBook: "INSERT INTO user_wishbook (user_id, book_id) VALUES(:userid, :bookid)"
+jwt:
+  salt: pepperpapricagarliconion
+  secret: thisisasecret
+  issuer: morebooksapp
+
+apis:
+  google:
+    volume: "https://www.googleapis.com/books/v1/volumes"
