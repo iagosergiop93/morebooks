@@ -58,7 +58,7 @@ public class UsersController {
         String jwt = usersService.createJwt(principal);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("auth-token","Bearer " + jwt);
+        responseHeaders.set("Authorization","Bearer " + jwt);
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)

@@ -1,10 +1,17 @@
 // Constants ------------------------------------------------------------------------------
 var SERVER_URL = "http://localhost:8080";
+var CONTAINER = document.getElementById('container');
+
+
+// Home Component
+var homeComponent = function() {
+
+}
 
 // Login Component ------------------------------------------------------------------------
 var loginComponent = function() {
-    var el = document.getElementById('container');
-    el.innerHTML = `
+    clearContainer();
+    CONTAINER.innerHTML = `
         <img class="logo" src="images/logo.png">
         <form onsubmit="event.preventDefault();">
             <div class="form-field">
@@ -20,7 +27,7 @@ var loginComponent = function() {
 
 var submitLogin = () => {
     var username = document.getElementById('loginUsername').value;
-    var password = document.getElementById('loginPassword').value;
+    var passwd = document.getElementById('loginPassword').value;
 
     var apiUrl = SERVER_URL + '/login';
 
@@ -31,11 +38,17 @@ var submitLogin = () => {
         },
         body: JSON.stringify({
             username,
-            password
+            passwd
         }),
-    }).then(res => {
-        if(res.status === 200) {
-
+    })
+    .then(res => {
+        var auth = res.headers.get("Authorization");
+        localStorage.setItem('at',auth);
+    })
+    .then(res => res.json())
+    .then(res => {
+        if(res) {
+            console.log(res);
         }
         else {
             console.log('res', res.body);
@@ -73,6 +86,5 @@ var router = function(route) {
 }
 
 window.onload = () => {
-    clearContainer();
     router('/'); 
 };
